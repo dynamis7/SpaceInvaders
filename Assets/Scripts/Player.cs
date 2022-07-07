@@ -26,11 +26,7 @@ public class Player : ObjectWithLifes
 		base.Awake();
         player = this;
     }
-    public void AddPoints(float gainedPoints)
-	{
-        playerPoints += gainedPoints;
-        pointsText.text = playerPoints.ToString();
-    }        
+      
 	private void Start()
     {
         GetData();
@@ -42,9 +38,19 @@ public class Player : ObjectWithLifes
         PlayerMovement();
         PlayerShooting();
     }
+    public void AddPoints(float gainedPoints)
+    {
+        playerPoints += gainedPoints;
+        pointsText.text = playerPoints.ToString();
+    }
 
-    private void GetData()
+    public void GameOver()
 	{
+        if (playerPoints > GameData.PointsRecord) GameData.PointsRecord = playerPoints;
+        SceneInstaller.LoadScene(0);
+    }
+    private void GetData()
+    {
         targetPosition = transform.position;
         horizontalSpeed = GameData.PlayerSpeed;
         bulletSpeed = GameData.PlayerBulletSpeed;

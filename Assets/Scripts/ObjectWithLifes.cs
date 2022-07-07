@@ -32,7 +32,6 @@ public class ObjectWithLifes : MonoBehaviour
 			CheckIfIsDead();
 		}
 	}
-
 	private void CheckIfIsDead()
 	{
 		if (lifes <= 0)
@@ -41,7 +40,6 @@ public class ObjectWithLifes : MonoBehaviour
 			if (showLifes) lifesText.text = "0";
 		}
 	}
-
 	public virtual void Destroy(float destroyTime = 0)
 	{
 		Destroy(gameObject, destroyTime);

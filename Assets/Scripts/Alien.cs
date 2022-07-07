@@ -18,11 +18,11 @@ public class Alien : Enemy
 	private void Start()
 	{
 		GetData();
-		bulletSpeed = GameManager.Manager.AlienBulletSpeed;
-		speed = GameManager.Manager.AlienSpeed;
-		bulletPrefab = GameManager.Manager.AlienBullet;
+		bulletSpeed = EnemiesSpawner.Spawner.AlienBulletSpeed;
+		speed = EnemiesSpawner.Spawner.AlienSpeed;
+		bulletPrefab = EnemiesSpawner.Spawner.AlienBullet;
 
-		GameManager.Manager.OnDirectionChanged += LowerRow;
+		EnemiesSpawner.Spawner.OnDirectionChanged += LowerRow;
 	}
 	private void Update()
     {
@@ -31,8 +31,8 @@ public class Alien : Enemy
 	}
 	private void GetData()
 	{
-		moveTime = GameManager.Manager.AlienMoveTime;
-		shootTime = GameManager.Manager.AlienTimeForNextShoot;
+		moveTime = EnemiesSpawner.Spawner.AlienMoveTime;
+		shootTime = EnemiesSpawner.Spawner.AlienTimeForNextShoot;
 	}
 	private void LowerRow()
 	{
@@ -44,7 +44,7 @@ public class Alien : Enemy
 		time1 += Time.deltaTime;
 		if (time1 > moveTime)
 		{
-			transform.Translate(new Vector2(GameManager.Manager.AliensXMoveDirection * speed, 0));
+			transform.Translate(new Vector2(EnemiesSpawner.Spawner.AliensXMoveDirection * speed, 0));
 			time1 = 0;
 		}
 	}
@@ -55,7 +55,7 @@ public class Alien : Enemy
 		if (time2 > shootTime)
 		{
 			int randomNumber = Random.Range(0, 100);
-			if (randomNumber <= GameManager.Manager.AlienShootProbability)
+			if (randomNumber <= EnemiesSpawner.Spawner.AlienShootProbability)
 			{
 				newBullet = Instantiate(bulletPrefab, bulletSpawnPoint);
 				newBullet.GetComponent<Bullet>().SetBulletSpeed(bulletSpeed);
@@ -66,8 +66,8 @@ public class Alien : Enemy
 
 	public override void Destroy(float destroyTime = 0)
 	{
-		GameManager.Manager.OnDirectionChanged -= LowerRow;
-		GameManager.Manager.AlienKilled();
+		EnemiesSpawner.Spawner.OnDirectionChanged -= LowerRow;
+		EnemiesSpawner.Spawner.AlienKilled();
 		base.Destroy(destroyTime);
 	}
 }

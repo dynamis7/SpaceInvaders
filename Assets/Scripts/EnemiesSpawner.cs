@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class EnemiesSpawner : MonoBehaviour
 {
 	public delegate void OnDirectionChangedDelegate();
 	public event OnDirectionChangedDelegate OnDirectionChanged;
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private GameObject alienBullet;
 	public GameObject AlienBullet { get { return alienBullet; } private set { } }
 
-	public static GameManager Manager;
+	public static EnemiesSpawner Spawner;
 
 	[Header("Aliens spawning")]
 	[SerializeField] private GameObject[] aliens = default;
@@ -45,10 +45,11 @@ public class GameManager : MonoBehaviour
 	private int aliensAmount;
 	private float ufoInstantiateTime;
 	private float time;
+	private float newRowMultiplier;
 
 	private void Awake()
 	{
-		Manager = this;
+		Spawner = this;
 		bullet = alienBullet.GetComponent<Bullet>();
 	}
 	private void Start()
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
 	public void ChangeDirection()
 	{
 		aliensXMoveDirection *= -1;
-		ChangeEnemiesData(0.9f);
+		ChangeEnemiesData(newRowMultiplier);
 		if (OnDirectionChanged != null) OnDirectionChanged.Invoke();
 	}
 
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
 	private void SetGameDefaultData()
 	{
 		Camera.main.orthographicSize = GameData.ScreenWidth / 2;
+		newRowMultiplier = GameData.NewRowMultiplier;
 		aliensPerRow = GameData.AliensPerRow;
 		spaceBetweenAliensX = GameData.SpaceBetweenAliensX;
 		spaceBetweenAliensY = GameData.SpaceBetweenAliensY;
